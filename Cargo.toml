@@ -1,0 +1,45 @@
+[package]
+name = "whois"
+version = "0.1.4"
+authors = ["Marirs <marirs@gmail.com>"]
+description = "Convert BigDomain Whois CSV data to MongoDB"
+keywords = ["whois", "mongodb", "csv", "bigdomain", "data"]
+repository = "https://github.com/marirs/bigdomaindata-whois-rs"
+readme = "README.md"
+license = "LICENSE"
+edition = "2021"
+
+[dependencies]
+chrono = "0.4.37"
+clap = { version = "4.5.4", features = ["derive"] }
+csv = "1.3.0"
+futures = "0.3"
+lazy_static = "1.4.0"
+log = "0.4.21"
+mongodb = { version = "2.8.2", default-features = false, features = ["sync"]}
+reqwest = { version = "0.12.3", features = ["native-tls-vendored"] }
+serde = { version = "1.0.197", features = ["derive"] }
+simple_logger = "5.0.0"
+serde_yaml = "0.9"
+thiserror = "1.0.58"
+tokio = { version = "1", features = ["full"] }
+zip = "1.1.3"
+
+[target.'cfg(not(target_os = "windows"))'.dependencies]
+jemallocator = "0.5.4"
+
+[[bin]]
+name = "whois"
+path = "src/main.rs"
+
+[profile.dev]
+opt-level = 3
+
+[profile.release]
+codegen-units = 1
+debug-assertions = false
+debug = false
+opt-level = 3
+lto = true
+panic = "abort"
+strip = "debuginfo"
